@@ -1,11 +1,9 @@
-
 import pygame
 import random
 import sys
 
 # Initialize pygame
 pygame.init()
-pygame.mixer.init()  # Initialize mixer for sound
 
 # Game window setup
 WIDTH, HEIGHT = 480, 640
@@ -27,15 +25,7 @@ except:
 man_img = pygame.transform.scale(man_img, (60, 80))
 flag_img = pygame.transform.scale(flag_img, (50, 60))
 fire_img = pygame.transform.scale(fire_img, (10, 20))
-palestine_flag_img = pygame.transform.scale(palestine_flag_img, (300, 200)) 
-
-# Load sound files
-try:
-    fire_sound = pygame.mixer.Sound("sounds/auto-gun-shots-312660.mp3")  # Fire sound path
-    fire_sound.set_volume(1.0)  # Set volume to max
-except pygame.error as e:
-    print(f"⚠️ Failed to load sound: {e}")
-    fire_sound = None  # In case loading fails
+palestine_flag_img = pygame.transform.scale(palestine_flag_img, (300, 200))
 
 # Player settings
 man_x = WIDTH // 2 - 30
@@ -73,7 +63,7 @@ while running:
     if score >= WIN_SCORE:
         # Display the Palestine flag on the screen
         win.fill((30, 30, 30))  # Clear the screen
-        win.blit(palestine_flag_img, (WIDTH // 2 - 150, HEIGHT // 2 - 100))  # Draw Palestine flag (increased size)
+        win.blit(palestine_flag_img, (WIDTH // 2 - 150, HEIGHT // 2 - 100))  
         win_text = font.render("You Win!", True, (255, 255, 255))  # Winning text
         win.blit(win_text, (WIDTH // 2 - win_text.get_width() // 2, HEIGHT // 2 + 120))  # Center the text
         pygame.display.update()
@@ -114,13 +104,11 @@ while running:
     if keys[pygame.K_RIGHT] and man_x < WIDTH - 60:
         man_x += man_speed
 
-    # Fire bullets and play fire sound when spacebar is pressed
+  
     if keys[pygame.K_SPACE] and current_time - last_fire_time > fire_delay:
         if len(fires) < 5:
             fires.append([man_x + 25, man_y])
             last_fire_time = current_time
-            if fire_sound:  # If the fire sound is loaded successfully
-                fire_sound.play()  # Play the fire sound every time the spacebar is pressed
 
     # Move fires
     for fire in fires[:]:
@@ -147,6 +135,3 @@ while running:
 
 pygame.quit()
 sys.exit()
-
-
-
